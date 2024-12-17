@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User Cards</title>
+    <style>
+    
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+    
+        .card {
+            width: 200px;
+            height: 300px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 10px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            margin: 10px 0 5px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .card h5 {
+            font-size: 16px;
+            color: #333;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; margin-top: 20px;">Random User Cards</h1>
+    
+    <div id="card-container" class="card-container"></div>
+
+    <script>
+        
+        fetch('https://randomuser.me/api/?results=5')
+            .then(response => response.json())
+            .then(data => {
+                const users = data.results;
+                
+    
+                const cardContainer = document.getElementById('card-container');
+                users.map(user => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    
+                    card.innerHTML = `
+                        <img src="${user.picture.large}" alt="${user.name.first}">
+                        <div class="card-content">
+                            <h3>${user.name.first} ${user.name.last}</h3>
+                            <p>${user.email}</p>
+                            <h5>Title: ${user.dob.age} years old</h5>
+                        </div>
+                    `;
+                    
+                    cardContainer.appendChild(card);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
